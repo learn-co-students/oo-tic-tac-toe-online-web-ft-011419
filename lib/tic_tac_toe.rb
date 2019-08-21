@@ -1,3 +1,4 @@
+require "pry"
 class TicTacToe
 
 def initialize (board = nil)
@@ -28,12 +29,56 @@ def input_to_index(input)
 num-1
 end
 
-def move
-
+def move(index, token = "x")
+@board[index] = token
 end
 
+def position_taken?(index)
+@board[index] != " "
+ 
+end
+def valid_move?(index)
+!position_taken?(index) && index.between?(0,8)
+end
+def turn_count
+  @board.count {|move| move !=" "}
+end
+def current_player
+  turn_count.even? ? "X" : "O"
+end
+
+def turn
+    puts "Please enter a number (1-9):"	
+    user_input = gets.strip
+    index =input_to_index(user_input)
+    if valid_move?(index)
+      token = current_player
+      move(index, token)
+      display_board
+    else
+       puts "Please enter a number (1-9):"
+       user_input = gets.strip
+    end	
+def won?
+  binding.pry
+  @board.any?
+  WIN_COMBINATIONS.any? {|key| }
+end
+def full?	
+    @board.all?{|square| square != " " }	
+  end	
+
+   def draw?	
+    full? && !won?	
+  end	
+
+   def over?	
+    won? || draw?	
+  end
 
 
 
+
+end
 
 end
