@@ -48,6 +48,7 @@ def current_player
 end
 
 def turn
+
     puts "Please enter a number (1-9):"	
     user_input = gets.strip
     index =input_to_index(user_input)
@@ -59,13 +60,19 @@ def turn
        puts "Please enter a number (1-9):"
        user_input = gets.strip
     end	
+  end
 def won?
-  binding.pry
-  @board.any?
-  WIN_COMBINATIONS.any? {|key| }
-end
-def full?	
-    @board.all?{|square| square != " " }	
+ 
+  WIN_COMBINATIONS.any? { |key|
+  if   position_taken?( key[0] ) && @board[key[0]] ==  @board[key[1]] && @board[key[1]]==@board[key[2]] 
+    
+    return key # can be buggy if you use return to break a loop  but i am lazy today 
+  end
+}
+end   
+
+  def full?	
+      @board.all?{|square| square != " " }	
   end	
 
    def draw?	
@@ -75,10 +82,19 @@ def full?
    def over?	
     won? || draw?	
   end
+      def winner
+        won? ? @board[won?[0]] : nil
+    end
 
 
 
-
-end
-
+   def play
+        turn until over?
+        if won?  
+      
+          puts "Congratulations #{winner}!" 
+        else
+          puts  "Cat's Game!"
+        end
+    end
 end
